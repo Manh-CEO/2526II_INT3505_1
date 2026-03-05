@@ -1,0 +1,13 @@
+{
+  "name": "week2",
+  "version": "1.0.0",
+  "description": "week2 practice",
+  "license": "ISC",
+  "author": "manhphi",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  }
+}
