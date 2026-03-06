@@ -7,12 +7,10 @@ const apiConfigs = [
 ];
 
 async function runAnalysis() {
-    // Gọi tất cả API song song
     const rawResponses = await Promise.all(apiConfigs.map(api =>
         axios.get(api.url, { headers: api.headers }).catch(err => ({ error: err.message }))
     ));
 
-    // Logic xử lý động (Dynamic Parsing) - Không hard-code tên thuộc tính
     const finalReport = rawResponses.map((res, index) => {
         if (res.error) return { api: apiConfigs[index].name, status: "Failed", message: res.error };
 
@@ -21,7 +19,6 @@ async function runAnalysis() {
         return {
             api: apiConfigs[index].name,
             status: res.status,
-            // Tự động lấy 3 key đầu tiên của JSON trả về để phân tích mẫu
             dataSummary: Object.keys(data).slice(0, 3).reduce((obj, key) => {
                 obj[key] = data[key];
                 return obj;
@@ -30,7 +27,6 @@ async function runAnalysis() {
         };
     });
 
-    // CHỈ dùng duy nhất 1 console.log và JSON.parse/stringify
     console.log(JSON.stringify(finalReport, null, 2));
 }
 
