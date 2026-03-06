@@ -1,27 +1,40 @@
 import requests
+import time
 
 BASE_URL = 'http://localhost:5000'
 
-response = requests.get(f'{BASE_URL}/')
-print(f"Server status: {response.text}")
+browser_cache = {
+    "etag": None,
+    "data": None
+}
+login_res = requests.post(f'{BASE_URL}/login', json={'username': 'admin', 'password': '123'})
+token = login_res.json().get('token')
+headers = {'Authorization': token}
 
-login_data = {'username': 'admin', 'password': '123'}
-login_response = requests.post(f'{BASE_URL}/login', json=login_data)
+def get_books_with_cache():
+    global browser_cache
+    
+    if browser_cache["etag"]:
+        headers['If-None-Match'] = browser_cache["etag"]
+    
+    response = requests.get(f'{BASE_URL}/books', headers=headers)
+    
+    if response.status_code == 200:
+        print("-> [200 OK] Dữ liệu mới hoặc đã thay đổi. Đang lưu vào Cache...")
+        browser_cache["data"] = response.json()
+        browser_cache["etag"] = response.headers.get('ETag')
+        return browser_cache["data"]
+        
+    elif response.status_code == 304:
+        print("-> [304 Not Modified] Server nói dữ liệu vẫn thế.")
+        print("-> Đang lấy dữ liệu từ 'Kho lưu trữ' (browser_cache['data']) để hiển thị...")
+        return browser_cache["data"]
 
-if login_response.status_code == 200:
-    token = login_response.json().get('token')
-    print(f"Lấy Token thành công: {token[:20]}...")
-    
-    headers = {'Authorization': token}
-    
-    book_response = requests.get(f'{BASE_URL}/books', headers=headers)
-    
-    if book_response.status_code == 200:
-        print(f"Danh sách sách: {book_response.json()}")
-    else:
-        print(f"Lỗi lấy sách: {book_response.status_code}")
-else:
-    print("Đăng nhập thất bại!")
+print("\n--- Gọi lần 1 ---")
+books = get_books_with_cache()
+print(f"Hiển thị: {books}")
 
-bad_response = requests.get(f'{BASE_URL}/books')
-print(f"Kết quả (mong đợi lỗi 401): {bad_response.status_code} - {bad_response.json()}")
+print("\n--- Gọi lần 2 (Cache đang hoạt động) ---")
+time.sleep(2)
+books = get_books_with_cache()
+print(f"Hiển thị từ Cache: {books}")
