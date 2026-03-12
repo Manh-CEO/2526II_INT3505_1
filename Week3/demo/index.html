@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HATEOAS Demo</title>
+    <style>
+        .btn {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .submit {
+            background: #3498db;
+            color: white;
+        }
+
+        .approve {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .status-tag {
+            font-weight: bold;
+            color: #e67e22;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Quản lý bài viết (HATEOAS)</h2>
+    <div id="app">
+        <p>Tiêu đề: <span id="title">Đang tải...</span></p>
+        <p>Trạng thái: <span id="status" class="status-tag">...</span></p>
+        <div id="actions"></div>
+    </div>
+
+    <script>
+        async function loadArticle(url = 'http://127.0.0.1:5000/articles/456') {
+            const res = await fetch(url);
+            const data = await res.json();
+
+            document.getElementById('title').innerText = data.title;
+            document.getElementById('status').innerText = data.status.toUpperCase();
+
+            const actionsDiv = document.getElementById('actions');
+            actionsDiv.innerHTML = '';
+
+            Object.keys(data._links).forEach(key => {
+                if (key === 'self') return;
+
+                const link = data._links[key];
+                const btn = document.createElement('button');
+                btn.innerText = key.toUpperCase();
+                btn.className = `btn ${key}`;
+                btn.onclick = () => loadArticle(url.split('/articles')[0] + link.href, link.method);
+                actionsDiv.appendChild(btn);
+            });
+        }
+
+        async function actionRequest(fullUrl, method) {
+            await fetch(fullUrl, { method: method });
+            loadArticle();
+        }
+
+        loadArticle();
+    </script>
+</body>
+
+</html>
