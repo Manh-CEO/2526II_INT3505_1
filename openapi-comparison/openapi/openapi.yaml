@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: Library Management API
+  description: API đơn giản để quản lý sách trong thư viện.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /books:
+    get:
+      summary: Lấy danh sách tất cả các cuốn sách
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Thêm một cuốn sách mới
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: Đã tạo thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /books/{id}:
+    get:
+      summary: Lấy thông tin chi tiết của một cuốn sách
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: không tìm thấy sách
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        author:
+          type: string
+        isbn:
+          type: string
+      required:
+        - id
+        - title
+        - author
+        - isbn
+    BookInput:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        isbn:
+          type: string
+      required:
+        - title
+        - author
+        - isbn

@@ -1,0 +1,52 @@
+FORMAT: 1A
+HOST: http://localhost:5000
+
+# Library Management API
+API đơn giản để quản lý sách trong thư viện dùng chuẩn API Blueprint.
+
+# Group Books
+Resources liên quan đến Sách.
+
+## Books Collection [/books]
+
+### Lấy danh sách tất cả các cuốn sách [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[Book])
+
+### Thêm một cuốn sách mới [POST]
+
++ Request (application/json)
+    + Attributes (Book Input)
+
++ Response 201 (application/json)
+    + Attributes (Book)
+
+## Book Details [/books/{id}]
+
+### Lấy thông tin chi tiết của một cuốn sách [GET]
+
++ Parameters
+    + id: `1` (string, required) - ID của cuốn sách
+
++ Response 200 (application/json)
+    + Attributes (Book)
+
++ Response 404 (application/json)
+    + Body
+        {
+            "error": "không tìm thấy sách"
+        }
+
+# Data Structures
+
+## Book (object)
++ id: `550e8400-e29b-41d4-a716-446655440000` (string, required)
++ title: `Lập trình Python` (string, required)
++ author: `Nguyễn Văn A` (string, required)
++ isbn: `123-456-789` (string, required)
+
+## Book Input (object)
++ title: `Lập trình Python` (string, required)
++ author: `Nguyễn Văn A` (string, required)
++ isbn: `123-456-789` (string, required)
