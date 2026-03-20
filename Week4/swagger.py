@@ -5,7 +5,6 @@ import sys
 
 sys.path.append(str(Path(__file__).parent))
 
-print(sys.path)
 
 app = Flask(__name__)
 
@@ -61,4 +60,5 @@ def delete_book(id):
     books = [b for b in books if b["id"] != id]
     return jsonify({"message": "Đã xóa thành công"}), 200
 
-app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
