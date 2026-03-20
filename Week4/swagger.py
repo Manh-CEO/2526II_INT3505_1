@@ -9,7 +9,7 @@ sys.path.append(str(Path(__file__).parent))
 app = Flask(__name__)
 
 SWAGGER_URL = '/api/docs'
-API_URL = '/static/swagger.yaml'
+API_URL = '/swagger.yaml'
 
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
