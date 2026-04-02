@@ -3,60 +3,64 @@
 ## 1. So sánh JWT và OAuth 2.0
 
 *   **JWT (JSON Web Token):**
-    *   **Bản chất:** Là một chuẩn mở (RFC 7519) định nghĩa cách truyền thông tin an toàn giữa các bên dưới dạng JSON format. Nó thường được sử dụng như một **token format** (định dạng token).
-    *   **Đặc điểm:** Stateless (phi trạng thái) - server không cần lưu trữ session. Thông tin auth (claims) được mã hóa và chèn trực tiếp vào payload.
-    *   **Ứng dụng:** Chủ yếu dùng cho Authentication (Xác thực) giữa client và server nội bộ (Single Page Apps, Microservices).
+    *   **Bản chất:** Là một định dạng token (chuẩn RFC 7519) dùng để mã hóa và truyền tải thông tin định danh một cách an toàn.
+    *   **Đặc điểm:** Stateless (phi trạng thái) - server không cần lưu trữ session. Thông tin (claims) nằm sẵn trong payload của token chữ ký.
+    *   **Ứng dụng:** Chủ yếu dùng cho Authentication (Xác thực) phân tán, đặc biệt là giữa Single Page Apps (SPA) / Mobile Apps và APIs.
 
 *   **OAuth 2.0:**
-    *   **Bản chất:** Là một **framework/protocol** (giao thức) ủy quyền (Authorization). Nó không định nghĩa cụ thể format của token (mặc dù thường sử dụng JWT làm token).
-    *   **Đặc điểm:** Cho phép một ứng dụng bên thứ 3 truy cập vào tài nguyên của người dùng mà không cần biết mật khẩu của họ (vd: Đăng nhập bằng Google/Facebook).
-    *   **Ứng dụng:** Chủ yếu dùng cho Delegation/Authorization (Ủy quyền phân quyền) giữa các server/hệ thống khác nhau (Third-party integrations).
-
-**Tóm tắt:** JWT là cái *căn cước công dân* của bạn (để chứng minh bạn là ai), trong khi OAuth 2.0 là *quy trình* quản lý cách cấp và kiểm tra giấy phép vào cổng (bạn được phép làm gì).
+    *   **Bản chất:** Là một **framework giao thức ủy quyền (Authorization)**. Định nghĩa luồng để mượn quyền, không quy định cụ thể format token (tuy nhiên thực tế thường dùng JWT làm Access Token).
+    *   **Đặc điểm:** Cho phép một ứng dụng bên thứ 3 (Ví dụ App của bạn) truy cập vào tài nguyên của người dùng (Ví dụ thông tin tài khoản Facebook) mà không cần giao mật khẩu cho App.
+    *   **Ứng dụng:** Delegation/Authorization (Uỷ quyền), ví dụ: "Login with Google/Facebook", OpenID Connect.
 
 ---
 
 ## 2. Các khái niệm cốt lõi
 
-*   **Bearer token:** Là một chuỗi mã xác thực tĩnh được cấp bởi Authorization Server. Trong HTTP Request, token thường được gửi trong header dưới dạng `Authorization: Bearer <token>`. Nếu ai đó đánh cắp được chuỗi này, họ có quyền sử dụng tài nguyên (như người mang vé - "bearer").
-*   **Refresh token:** Là một token đặc biệt, thường có tuổi thọ (expiration) dài hơn Access Token. Nó dùng để lấy một Access Token mới khi Access Token cũ đã hết hạn, giúp người dùng không phải đăng nhập lại nhiều lần mà vẫn đảm bảo an toàn vì Access Token bị thay mới liên tục.
-*   **Scopes:** Định nghĩa phạm vi quyền hạn (permissions) mà một token có. Ví dụ: `read:users`, `write:articles`. Ứng dụng client chỉ có thể thao tác với tài nguyên nằm trong *scopes* của token đang sở hữu.
-*   **Roles:** Vai trò của người dùng trong hệ thống (vd: `Admin`, `User`, `Moderator`). Thường được sử dụng tích hợp trong RBAC (Role-Based Access Control) để quyết định người dùng được làm gì. *Scopes có thể dựa trên Roles để cấp.*
+*   **Bearer token:** Giao thức xác thực HTTP thiết kế cho OAuth 2.0, token thường được để trong Header với từ khóa `Bearer`. Nếu ai đó đánh cắp được chuỗi token này, họ sẽ có quyền sử dụng API như người nắm giữ vé (bearer) hợp pháp.
+*   **Refresh token:** Một token phụ có tuổi thọ (expiration) dài. Nó được dùng để lấy lại/làm mới một Access Token khi thẻ này hết hạn. Cơ chế này giúp giữ nguyên trải nghiệm dài hạn cho người dùng nhưng rất an toàn vì Access Token (hay bị lộ do trao đổi nhiều) bị thay mới liên tục.
+*   **Scopes:** Giới hạn phạm vi quyền (ví dụ `read:users`, `write:posts`) trên token. Ứng dụng chỉ có thể truy cập những API map đúng với Scope đã cấp.
+*   **Roles:** Phân quyền theo vai trò chức danh của user (ví dụ `admin`, `user`). Dùng để xác định ranh giới tính năng dựa vào từng nhóm chức danh.
 
 ---
 
-## 3. Phân tích rủi ro bảo mật và cách khắc phục
+## 3. Phân tích rủi ro bảo mật & Security Audit
 
-Quá trình thực hành Security Audit API, chúng ta cần phát hiện và xử lý các lỗi sau:
+Trong API Audit hiện nay có 2 lỗ hổng kinh điển phải khắc phục:
 
 ### 3.1. Token Leakage (Rò rỉ token)
-*   **Mô tả:** Token bị lộ thông qua URL parameters (vd: `/?token=abc`), lưu ở localStorage/sessionStorage dễ bị XSS tấn công, hoặc không mã hóa HTTPS khi truyền tải.
-*   **Khắc phục:**
-    *   Luôn gửi token thông qua HTTP Header (`Authorization: Bearer <token>`).
-    *   Luôn dùng HTTPS.
-    *   Nên lưu trữ bằng **HttpOnly & Secure Cookies** thay vì localStorage để ngăn chặn XSS (hoặc dùng token thời gian rất ngắn trên bộ nhớ).
+*   **Vấn đề / Phát hiện:** Token nằm trong URL Parameter (`https://api.domain.com/v1/auth?token=abc...`). Thông tin này dễ dàng bị ghi vào Browser History, Proxy Cache, hoặc Server Access Logs.
+*   **Cách khắc phục:** 
+    *   Luôn yêu cầu truyền/cấp token thông qua HTTP Headers (vd: `Authorization: Bearer <token>`).
+    *   Nên ép HTTPS để encrypt request.
+    *(Tham khảo: API Demo cố tình có 1 route bị lỗi bảo mật này)*.
 
 ### 3.2. Replay Attack (Tấn công phát lại)
-*   **Mô tả:** Hacker chặn bắt (sniff) Request (bao gồm cả token) và gửi lại y hệt để chiếm quyền thao tác (mặc dù họ không phân tích được Payload của JWT do không có secret key).
-*   **Khắc phục:**
-    *   Sử dụng JWT với thời gian sống (TTL - Time To Live) cực ngắn cho Access Token (ví dụ 10-15 phút).
-    *   Cấu hình Rotate Refresh Token (mỗi khi dùng refresh token đổi lấy access token mới, refresh token cũ bị thu hồi/đổi mới).
-    *   Kiểm tra JTI (JWT ID) để chống dùng lại token cũ cho các hành động đòi hỏi 1 lần (one-time logic).
+*   **Vấn đề / Phát hiện:** Token cấp ra không có hạn sử dụng hoặc hạn sử dụng vĩnh viễn. Kẻ xấu lấy trộm được và phát lại (replay) các gói tin trái phép vĩnh viễn lúc nào cũng được.
+*   **Cách khắc phục:**
+    *   Luôn gắn thời gian hết hạn (`exp`) cực ngắn (15-30 phút) trên Access Token.
+    *   Dùng Refresh Token cho mục đích sử dụng lâu dài và bắt phải đăng nhập lại hoặc revoke Refresh Token nếu phát hiện bất thường.
 
 ---
 
-## 4. Hướng dẫn chạy Backend Demo
+## 4. Hướng dẫn chạy Backend Demo (Python / Flask)
 
-1. Chuyển thư mục: `cd jwt-backend`
-2. Cài đặt dependencies: `npm install`
-3. Chạy môi trường dev: `node server.js`
+1. Cài đặt môi trường thư viện:
+   ```bash
+   cd jwt-flask
+   python -m venv venv
+   # Kích hoạt venv (Với Windows)
+   venv\Scripts\activate
+   # (Với Mac/Linux): source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+2. Chạy server Flask:
+   ```bash
+   python app.py
+   ```
 
-**Các API Endpoint:**
-*   `POST /api/login`: Đăng nhập, nhận Access và Refresh Token.
-*   `POST /api/refresh`: Làm mới Access Token.
-*   `GET /api/protected`: Endpoint yêu cầu Bearer token trong Headers.
-*   `GET /api/admin`: Endpoint yêu cầu role admin.
-
----
-
-*(Tài liệu tham khảo tham chiếu thiết kế JWT từ JJ Geewax – Chapter 5 liên quan đến Standard/Custom API behaviors and security practices).*
+**Các REST API Endpoints Demo:**
+*   `POST /api/login`: Truyền JSON `{"username": "admin", "password": "password"}`. Cấp JWT Access Token và Refresh Token.
+*   `POST /api/refresh`: Truyền JSON `{"token": "<refresh_token>"}` để xin cấp token mới.
+*   `GET /api/protected`: Gửi header `Authorization: Bearer <access_token>`. Check xác thực.
+*   `GET /api/admin`: Kiểm tra phân quyền RBAC Role của `admin`.
+*   `GET /api/leak-demo?token="xxx"`: Endpoint mô phỏng lỗ hổng Token Leakage.
