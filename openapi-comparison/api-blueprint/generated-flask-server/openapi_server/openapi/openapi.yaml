@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+  description: API đơn giản để quản lý sách trong thư viện dùng chuẩn API Blueprint.
+  title: Library Management API
+  version: ""
+servers:
+- url: http://localhost:5000/
+tags:
+- description: Resources liên quan đến Sách.
+  name: Books
+paths:
+  /books:
+    get:
+      operationId: ly_danh_sch_tt_c_cc_cun_sch
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+              - id: 550e8400-e29b-41d4-a716-446655440000
+                title: Lập trình Python
+                author: Nguyễn Văn A
+                isbn: 123-456-789
+              schema:
+                items:
+                  type: object
+                type: array
+          description: OK
+      summary: Lấy danh sách tất cả các cuốn sách
+      tags:
+      - Books
+      x-openapi-router-controller: openapi_server.controllers.books_controller
+    post:
+      operationId: thm_mt_cun_sch_mi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Th_m_m_t_cu_n_s_ch_m_i_request"
+        required: false
+      responses:
+        "201":
+          content:
+            application/json:
+              example:
+                id: 550e8400-e29b-41d4-a716-446655440000
+                title: Lập trình Python
+                author: Nguyễn Văn A
+                isbn: 123-456-789
+              schema:
+                $ref: "#/components/schemas/Th_m_m_t_cu_n_s_ch_m_i_201_response"
+          description: Created
+      summary: Thêm một cuốn sách mới
+      tags:
+      - Books
+      x-codegen-request-body-name: body
+      x-openapi-router-controller: openapi_server.controllers.books_controller
+  /books/{id}:
+    get:
+      operationId: ly_thng_tin_chi_tit_ca_mt_cun_sch
+      parameters:
+      - description: ID của cuốn sách
+        example: "1"
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                id: 550e8400-e29b-41d4-a716-446655440000
+                title: Lập trình Python
+                author: Nguyễn Văn A
+                isbn: 123-456-789
+              schema:
+                $ref: "#/components/schemas/Th_m_m_t_cu_n_s_ch_m_i_201_response"
+          description: OK
+        "404":
+          content:
+            application/json:
+              example:
+                error: không tìm thấy sách
+              schema:
+                $ref: "#/components/schemas/L_y_th_ng_tin_chi_ti_t_c_a_m_t_cu_n_s_ch_404_response"
+          description: Not Found
+      summary: Lấy thông tin chi tiết của một cuốn sách
+      tags:
+      - Books
+      x-openapi-router-controller: openapi_server.controllers.books_controller
+components:
+  schemas:
+    Books Collection:
+      type: object
+    Book Details:
+      type: object
+    Book:
+      properties:
+        id:
+          example: 550e8400-e29b-41d4-a716-446655440000
+          type: string
+        title:
+          example: Lập trình Python
+          type: string
+        author:
+          example: Nguyễn Văn A
+          type: string
+        isbn:
+          example: 123-456-789
+          type: string
+      required:
+      - author
+      - id
+      - isbn
+      - title
+      type: object
+    Book Input:
+      properties:
+        title:
+          example: Lập trình Python
+          type: string
+        author:
+          example: Nguyễn Văn A
+          type: string
+        isbn:
+          example: 123-456-789
+          type: string
+      required:
+      - author
+      - isbn
+      - title
+      type: object
+    Th_m_m_t_cu_n_s_ch_m_i_request:
+      example:
+        title: Lập trình Python
+        author: Nguyễn Văn A
+        isbn: 123-456-789
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        isbn:
+          type: string
+      required:
+      - author
+      - isbn
+      - title
+      title: Th_m_m_t_cu_n_s_ch_m_i_request
+      type: object
+    Th_m_m_t_cu_n_s_ch_m_i_201_response:
+      example:
+        author: author
+        isbn: isbn
+        id: id
+        title: title
+      properties:
+        id:
+          title: id
+          type: string
+        title:
+          title: title
+          type: string
+        author:
+          title: author
+          type: string
+        isbn:
+          title: isbn
+          type: string
+      required:
+      - author
+      - id
+      - isbn
+      - title
+      title: Th_m_m_t_cu_n_s_ch_m_i_201_response
+      type: object
+    L_y_th_ng_tin_chi_ti_t_c_a_m_t_cu_n_s_ch_404_response:
+      example:
+        error: không tìm thấy sách
+      properties:
+        error:
+          type: string
+      title: L_y_th_ng_tin_chi_ti_t_c_a_m_t_cu_n_s_ch_404_response
+      type: object
+x-original-swagger-version: "2.0"
