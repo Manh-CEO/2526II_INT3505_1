@@ -1,0 +1,272 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Library Management API",
+        "version": "",
+        "description": "API đơn giản để quản lý sách trong thư viện dùng chuẩn API Blueprint."
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/books": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                                    "title": "Lập trình Python",
+                                    "author": "Nguyễn Văn A",
+                                    "isbn": "123-456-789"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "type": "array",
+                            "items": {}
+                        }
+                    }
+                },
+                "summary": "Lấy danh sách tất cả các cuốn sách",
+                "operationId": "Lấy danh sách tất cả các cuốn sách",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": []
+            },
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "id": "550e8400-e29b-41d4-a716-446655440000",
+                                "title": "Lập trình Python",
+                                "author": "Nguyễn Văn A",
+                                "isbn": "123-456-789"
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "type": "string"
+                                },
+                                "isbn": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "title",
+                                "author",
+                                "isbn"
+                            ]
+                        }
+                    }
+                },
+                "summary": "Thêm một cuốn sách mới",
+                "operationId": "Thêm một cuốn sách mới",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "type": "string"
+                                },
+                                "isbn": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "title",
+                                "author",
+                                "isbn"
+                            ],
+                            "example": {
+                                "title": "Lập trình Python",
+                                "author": "Nguyễn Văn A",
+                                "isbn": "123-456-789"
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/books/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "id": "550e8400-e29b-41d4-a716-446655440000",
+                                "title": "Lập trình Python",
+                                "author": "Nguyễn Văn A",
+                                "isbn": "123-456-789"
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "type": "string"
+                                },
+                                "isbn": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "title",
+                                "author",
+                                "isbn"
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "error": "không tìm thấy sách"
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "error": "không tìm thấy sách"
+                            }
+                        }
+                    }
+                },
+                "summary": "Lấy thông tin chi tiết của một cuốn sách",
+                "operationId": "Lấy thông tin chi tiết của một cuốn sách",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của cuốn sách",
+                        "required": true,
+                        "x-example": "1",
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": []
+            }
+        }
+    },
+    "definitions": {
+        "Books Collection": {},
+        "Book Details": {},
+        "Book": {
+            "type": "object",
+            "required": [
+                "id",
+                "title",
+                "author",
+                "isbn"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Lập trình Python"
+                },
+                "author": {
+                    "type": "string",
+                    "example": "Nguyễn Văn A"
+                },
+                "isbn": {
+                    "type": "string",
+                    "example": "123-456-789"
+                }
+            }
+        },
+        "Book Input": {
+            "type": "object",
+            "required": [
+                "title",
+                "author",
+                "isbn"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "example": "Lập trình Python"
+                },
+                "author": {
+                    "type": "string",
+                    "example": "Nguyễn Văn A"
+                },
+                "isbn": {
+                    "type": "string",
+                    "example": "123-456-789"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {},
+    "tags": [
+        {
+            "name": "Books",
+            "description": "Resources liên quan đến Sách."
+        }
+    ]
+}

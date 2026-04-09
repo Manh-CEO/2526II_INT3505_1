@@ -21,3 +21,16 @@ npx dredd api.apib http://localhost:5000
 ```
 
 Dredd sẽ tự động đọc các ví dụ (examples) trong file `.apib` và bắn request lên server để so sánh kết quả trả về.
+
+## 4. Demo Sinh Server Code (Flask)
+Tuy API Blueprint không hỗ trợ trực tiếp sinh server code, ta có thể convert sang OpenAPI để sinh code nhờ sự hỗ trợ của cộng đồng.
+
+**Bước 1: Chuyển đổi sang `openapi.yaml`:**
+```bash
+npx apib2swagger -i api.apib -o openapi.yaml
+```
+
+**Bước 2: Sinh mã nguồn Flask Server:**
+```bash
+npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g python-flask -o ./generated-flask-server
+```

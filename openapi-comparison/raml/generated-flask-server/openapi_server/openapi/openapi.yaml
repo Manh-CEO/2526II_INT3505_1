@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: Library Management API
+  version: v1
+servers:
+- url: http://localhost:5000/
+paths:
+  /books:
+    get:
+      description: Lß║Ñy danh s├ích tß║Ñt cß║ú c├íc cuß╗æn s├ích
+      operationId: g_et_books
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Book"
+                type: array
+          description: ""
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+    post:
+      description: Th├¬m mß╗Öt cuß╗æn s├ích mß╗¢i
+      operationId: p_ost_books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookInput"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+          description: ""
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /books/{id}:
+    get:
+      description: Lß║Ñy th├┤ng tin chi tiß║┐t cß╗ºa mß╗Öt cuß╗æn s├ích
+      operationId: g_et_books_id
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GET_books_id_404_response"
+          description: ""
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  callbacks: {}
+  examples: {}
+  headers: {}
+  links: {}
+  parameters: {}
+  requestBodies: {}
+  responses: {}
+  schemas:
+    Book:
+      example:
+        author: author
+        isbn: isbn
+        id: id
+        title: title
+      properties:
+        id:
+          title: id
+          type: string
+        title:
+          title: title
+          type: string
+        author:
+          title: author
+          type: string
+        isbn:
+          title: isbn
+          type: string
+      required:
+      - author
+      - id
+      - isbn
+      - title
+      title: Book
+      type: object
+    BookInput:
+      example:
+        author: author
+        isbn: isbn
+        title: title
+      properties:
+        title:
+          title: title
+          type: string
+        author:
+          title: author
+          type: string
+        isbn:
+          title: isbn
+          type: string
+      required:
+      - author
+      - isbn
+      - title
+      title: BookInput
+      type: object
+    GET_books_id_404_response:
+      example:
+        error: error
+      properties:
+        error:
+          title: error
+          type: string
+      required:
+      - error
+      title: GET_books_id_404_response
+  securitySchemes: {}
