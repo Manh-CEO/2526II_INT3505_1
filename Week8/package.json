@@ -1,0 +1,14 @@
+{
+  "name": "week8-postman-newman",
+  "version": "1.0.0",
+  "description": "Week 8 - Postman test suite and Newman automation for INT3505",
+  "scripts": {
+    "test": "newman run collection/INT3505-Week8.postman_collection.json --environment environment/INT3505-Week8.postman_environment.json --reporters cli,json --reporter-json-export reports/newman-results.json --timeout 10000 --delay-request 500",
+    "test:html": "newman run collection/INT3505-Week8.postman_collection.json --environment environment/INT3505-Week8.postman_environment.json --reporters cli,htmlextra,json --reporter-htmlextra-export reports/newman-report.html --reporter-json-export reports/newman-results.json --timeout 10000 --delay-request 500",
+    "test:full": "bash scripts/run-tests.sh"
+  },
+  "devDependencies": {
+    "newman": "^6.2.0",
+    "newman-reporter-htmlextra": "^1.22.0"
+  }
+}

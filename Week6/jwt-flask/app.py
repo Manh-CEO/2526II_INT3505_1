@@ -154,4 +154,4 @@ def leak_demo():
         return jsonify({'error': 'Hãy truyền ?token=xxx để test lỗ hổng Token Leakage.'}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5001)
