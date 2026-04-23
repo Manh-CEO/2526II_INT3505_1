@@ -1,0 +1,485 @@
+{
+    "item": [
+        {
+            "name": "books",
+            "description": "",
+            "item": [
+                {
+                    "id": "ec4591db-134c-483a-9615-a5e68abe1608",
+                    "name": "Lấy danh sách toàn bộ sách",
+                    "request": {
+                        "name": "Lấy danh sách toàn bộ sách",
+                        "description": {},
+                        "url": {
+                            "path": [
+                                "books"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "method": "GET",
+                        "body": {},
+                        "auth": null
+                    },
+                    "response": [
+                        {
+                            "id": "c5cf61fc-8c71-4193-a66e-8132ee415180",
+                            "name": "Thành công",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        "books"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "[\n  {\n    \"id\": \"<integer>\",\n    \"title\": \"<string>\",\n    \"author\": \"<string>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"title\": \"<string>\",\n    \"author\": \"<string>\"\n  }\n]",
+                            "cookie": [],
+                            "_postman_previewlanguage": "json"
+                        }
+                    ],
+                    "event": [],
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    }
+                },
+                {
+                    "id": "ea3d5eae-caf6-4088-b35b-894b88403057",
+                    "name": "Thêm một cuốn sách mới",
+                    "request": {
+                        "name": "Thêm một cuốn sách mới",
+                        "description": {},
+                        "url": {
+                            "path": [
+                                "books"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"<string>\",\n  \"author\": \"<string>\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": null
+                    },
+                    "response": [
+                        {
+                            "id": "fa23c655-7545-415c-96d6-62176b2adb29",
+                            "name": "Đã tạo sách thành công",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        "books"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"title\": \"<string>\",\n  \"author\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "header": [],
+                            "cookie": [],
+                            "_postman_previewlanguage": "text"
+                        }
+                    ],
+                    "event": [],
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    }
+                },
+                {
+                    "name": "{id}",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "c3d80f17-179b-4219-a628-263653d2eb35",
+                            "name": "Lấy thông tin sách theo ID",
+                            "request": {
+                                "name": "Lấy thông tin sách theo ID",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "books",
+                                        ":id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "type": "any",
+                                            "value": "<integer>",
+                                            "key": "id",
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID của cuốn sách",
+                                                "type": "text/plain"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {},
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "5f8527f9-8e99-40b6-99d0-8dff3e3c3135",
+                                    "name": "Thành công",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "books",
+                                                ":id"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "(Required) ID của cuốn sách",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "type": "any",
+                                                    "value": "<integer>",
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"id\": \"<integer>\",\n  \"title\": \"<string>\",\n  \"author\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "9abec2d8-0c5a-41ba-a558-058c02b4c92f",
+                                    "name": "Không tìm thấy sách",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "books",
+                                                ":id"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "(Required) ID của cuốn sách",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "type": "any",
+                                                    "value": "<integer>",
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        },
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "Not Found",
+                                    "code": 404,
+                                    "header": [],
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "id": "1bcf9bea-d77f-426d-96dd-a252b3e882af",
+                            "name": "Cập nhật thông tin sách",
+                            "request": {
+                                "name": "Cập nhật thông tin sách",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "books",
+                                        ":id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "type": "any",
+                                            "value": "<integer>",
+                                            "key": "id",
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID của cuốn sách",
+                                                "type": "text/plain"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "PUT",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"title\": \"<string>\",\n  \"author\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "4e82df10-13c0-458a-a3d9-a749853c46cf",
+                                    "name": "Cập nhật thành công",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "books",
+                                                ":id"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "(Required) ID của cuốn sách",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "type": "any",
+                                                    "value": "<integer>",
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "PUT",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"title\": \"<string>\",\n  \"author\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [],
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "id": "a63f454b-b2f6-4035-9ed8-15716499ee7e",
+                            "name": "Xóa một cuốn sách",
+                            "request": {
+                                "name": "Xóa một cuốn sách",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "books",
+                                        ":id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "type": "any",
+                                            "value": "<integer>",
+                                            "key": "id",
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID của cuốn sách",
+                                                "type": "text/plain"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "method": "DELETE",
+                                "body": {},
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "a5158117-1ed1-4e30-9910-a0fb8df4cf0c",
+                                    "name": "Xóa thành công",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "books",
+                                                ":id"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "(Required) ID của cuốn sách",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "type": "any",
+                                                    "value": "<integer>",
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        },
+                                        "method": "DELETE",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [],
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "text"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "event": [],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:5000"
+        }
+    ],
+    "info": {
+        "_postman_id": "65670e14-f2bd-407b-a959-a24074f3acc8",
+        "name": "API Quản lý Sách",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": {
+            "content": "Tài liệu chuẩn OpenAPI cho hệ thống quản lý sách.",
+            "type": "text/plain"
+        }
+    }
+}

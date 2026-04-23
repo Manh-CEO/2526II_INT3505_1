@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Pet Store
+  version: 0.0.0
+servers:
+- description: Single server endpoint
+  url: https://example.com
+paths:
+  /pets:
+    get:
+      operationId: pets_list_pets
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: The request has succeeded.
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+    post:
+      operationId: pets_create_pet
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: The request has succeeded and a new resource has been created
+            as a result.
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: "The request has been accepted for processing, but processing\
+            \ has not yet completed."
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /pets/{petId}:
+    delete:
+      operationId: pets_delete_pet
+      parameters:
+      - explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: "There is no content to send for this request, but the headers\
+            \ may be useful. "
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+    get:
+      operationId: pets_get_pet
+      parameters:
+      - explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: The request has succeeded.
+        "404":
+          description: The server cannot find the requested resource.
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+    put:
+      operationId: pets_update_pet
+      parameters:
+      - explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: The request has succeeded.
+        "404":
+          description: The server cannot find the requested resource.
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  schemas:
+    Pet:
+      example:
+        kind: dog
+        name: name
+        id: 0
+        age: 60
+      properties:
+        id:
+          format: int32
+          title: id
+          type: integer
+        name:
+          minLength: 1
+          title: name
+          type: string
+        age:
+          format: int32
+          maximum: 100
+          minimum: 0
+          title: age
+          type: integer
+        kind:
+          $ref: "#/components/schemas/petType"
+      required:
+      - age
+      - id
+      - kind
+      - name
+      title: Pet
+      type: object
+    petType:
+      enum:
+      - dog
+      - cat
+      - fish
+      - bird
+      - reptile
+      title: petType
+      type: string

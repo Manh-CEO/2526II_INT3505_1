@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip list *)",
+      "Bash(npm --version)",
+      "Bash(npx newman *)",
+      "Bash(npm install *)",
+      "Bash(bash scripts/run-tests.sh)",
+      "Bash(pip *)",
+      "Bash(python3 *)",
+      "Bash(uv *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}

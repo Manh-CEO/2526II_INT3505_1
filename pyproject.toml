@@ -9,6 +9,7 @@ dependencies = [
     "flask-cors>=6.0.2",
     "flask-swagger-ui>=4.11.1",
     "pyjwt>=2.11.0",
+    "python-dotenv>=1.2.2",
     "requests>=2.32.5",
 ]
 

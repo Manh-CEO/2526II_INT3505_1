@@ -5,7 +5,11 @@
   "scripts": {
     "test": "newman run collection/INT3505-Week8.postman_collection.json --environment environment/INT3505-Week8.postman_environment.json --reporters cli,json --reporter-json-export reports/newman-results.json --timeout 10000 --delay-request 500",
     "test:html": "newman run collection/INT3505-Week8.postman_collection.json --environment environment/INT3505-Week8.postman_environment.json --reporters cli,htmlextra,json --reporter-htmlextra-export reports/newman-report.html --reporter-json-export reports/newman-results.json --timeout 10000 --delay-request 500",
-    "test:full": "bash scripts/run-tests.sh"
+    "test:full": "powershell -ExecutionPolicy Bypass -File scripts/run-tests.ps1",
+    "monitor": "python scripts/analyze-performance.py reports/newman-results.json",
+    "load-test": "k6 run scripts/load-test.js",
+    "test:load": "newman run collection/INT3505-Week8.postman_collection.json -e environment/INT3505-Week8.postman_environment.json -n 50 --delay-request 100",
+    "test:contract": "newman run collection/auto_generated_collection.json -r cli,openapi --reporter-openapi-spec ../Week4/static/swagger.yaml"
   },
   "devDependencies": {
     "newman": "^6.2.0",
